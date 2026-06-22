@@ -1,3 +1,4 @@
+use ::rand::{RngExt, rng};
 use macroquad::prelude::*;
 
 const TILE_SIZE: f32 = 100.;
@@ -19,12 +20,16 @@ async fn main() {
 
 struct OneSweeper {
     tile_clicked: bool,
+    mine_placed: bool,
 }
 
 impl OneSweeper {
     fn new() -> Self {
+        let mut rng = rng();
+
         OneSweeper {
             tile_clicked: false,
+            mine_placed: rng.random_bool(0.5),
         }
     }
 
@@ -46,44 +51,50 @@ impl OneSweeper {
     }
 
     fn draw_tile(&mut self, center_x: f32, center_y: f32) {
-        // top-left border of tile
-        draw_triangle(
-            vec2(
-                center_x + TILE_SIZE + TILE_BORDER_SIZE,
-                center_y - TILE_BORDER_SIZE,
-            ),
-            vec2(center_x - TILE_BORDER_SIZE, center_y - TILE_BORDER_SIZE),
-            vec2(
-                center_x - TILE_BORDER_SIZE,
-                center_y + TILE_SIZE + TILE_BORDER_SIZE,
-            ),
-            Color::from_hex(0xFFFFFF),
-        );
+        if !self.tile_clicked {
+            // top-left border of tile
+            draw_triangle(
+                vec2(
+                    center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                    center_y - TILE_BORDER_SIZE,
+                ),
+                vec2(center_x - TILE_BORDER_SIZE, center_y - TILE_BORDER_SIZE),
+                vec2(
+                    center_x - TILE_BORDER_SIZE,
+                    center_y + TILE_SIZE + TILE_BORDER_SIZE,
+                ),
+                Color::from_hex(0xFFFFFF),
+            );
 
-        // bottom-right border of tile
-        draw_triangle(
-            vec2(
-                center_x - TILE_BORDER_SIZE,
-                center_y + TILE_SIZE + TILE_BORDER_SIZE,
-            ),
-            vec2(
-                center_x + TILE_SIZE + TILE_BORDER_SIZE,
-                center_y + TILE_SIZE + TILE_BORDER_SIZE,
-            ),
-            vec2(
-                center_x + TILE_SIZE + TILE_BORDER_SIZE,
-                center_y - TILE_BORDER_SIZE,
-            ),
-            Color::from_hex(0x7E7E7E),
-        );
+            // bottom-right border of tile
+            draw_triangle(
+                vec2(
+                    center_x - TILE_BORDER_SIZE,
+                    center_y + TILE_SIZE + TILE_BORDER_SIZE,
+                ),
+                vec2(
+                    center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                    center_y + TILE_SIZE + TILE_BORDER_SIZE,
+                ),
+                vec2(
+                    center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                    center_y - TILE_BORDER_SIZE,
+                ),
+                Color::from_hex(0x7E7E7E),
+            );
 
-        // tile center
-        draw_rectangle(
-            center_x,
-            center_y,
-            TILE_SIZE,
-            TILE_SIZE,
-            Color::from_hex(0xC0C0C0),
-        );
+            // tile center
+            draw_rectangle(
+                center_x,
+                center_y,
+                TILE_SIZE,
+                TILE_SIZE,
+                Color::from_hex(0xC0C0C0),
+            );
+        } else if self.tile_clicked {
+            if self.mine_placed {
+                // TODO: Draw loss tile & mine sprite, ask user to replay
+            }
+        }
     }
 }
