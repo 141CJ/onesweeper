@@ -1,6 +1,7 @@
 use macroquad::prelude::*;
 
 const TILE_SIZE: f32 = 100.;
+const TILE_BORDER_SIZE: f32 = TILE_SIZE / 10.;
 #[macroquad::main("OneSweeper")]
 async fn main() {
     loop {
@@ -17,12 +18,12 @@ async fn main() {
 
 fn handle_input(center_x: f32, center_y: f32) {
     // checks if cursor is within x bounds of tile
-    if mouse_position().0 >= center_x - (TILE_SIZE / 10.)
-        && mouse_position().0 <= center_x + (TILE_SIZE + TILE_SIZE / 10.)
+    if mouse_position().0 >= center_x - TILE_BORDER_SIZE
+        && mouse_position().0 <= center_x + (TILE_SIZE + TILE_BORDER_SIZE)
     {
         // checks if cursor is within y bounds of tile
-        if mouse_position().1 >= center_y - (TILE_SIZE / 10.)
-            && mouse_position().1 <= center_y + (TILE_SIZE + TILE_SIZE / 10.)
+        if mouse_position().1 >= center_y - TILE_BORDER_SIZE
+            && mouse_position().1 <= center_y + (TILE_SIZE + TILE_BORDER_SIZE)
         {
             if is_mouse_button_pressed(MouseButton::Left) {
                 println!("{:?}", mouse_position());
@@ -35,13 +36,13 @@ fn draw_tile(center_x: f32, center_y: f32) {
     // top-left border of tile
     draw_triangle(
         vec2(
-            center_x + TILE_SIZE + (TILE_SIZE / 10.),
-            center_y - (TILE_SIZE / 10.),
+            center_x + TILE_SIZE + TILE_BORDER_SIZE,
+            center_y - TILE_BORDER_SIZE,
         ),
-        vec2(center_x - (TILE_SIZE / 10.), center_y - (TILE_SIZE / 10.)),
+        vec2(center_x - TILE_BORDER_SIZE, center_y - TILE_BORDER_SIZE),
         vec2(
-            center_x - (TILE_SIZE / 10.),
-            center_y + TILE_SIZE + (TILE_SIZE / 10.),
+            center_x - TILE_BORDER_SIZE,
+            center_y + TILE_SIZE + TILE_BORDER_SIZE,
         ),
         Color::from_hex(0xFFFFFF),
     );
@@ -49,16 +50,16 @@ fn draw_tile(center_x: f32, center_y: f32) {
     // bottom-right border of tile
     draw_triangle(
         vec2(
-            center_x - (TILE_SIZE / 10.),
-            center_y + TILE_SIZE + (TILE_SIZE / 10.),
+            center_x - TILE_BORDER_SIZE,
+            center_y + TILE_SIZE + TILE_BORDER_SIZE,
         ),
         vec2(
-            center_x + TILE_SIZE + (TILE_SIZE / 10.),
-            center_y + TILE_SIZE + (TILE_SIZE / 10.),
+            center_x + TILE_SIZE + TILE_BORDER_SIZE,
+            center_y + TILE_SIZE + TILE_BORDER_SIZE,
         ),
         vec2(
-            center_x + TILE_SIZE + (TILE_SIZE / 10.),
-            center_y - (TILE_SIZE / 10.),
+            center_x + TILE_SIZE + TILE_BORDER_SIZE,
+            center_y - TILE_BORDER_SIZE,
         ),
         Color::from_hex(0x7E7E7E),
     );
