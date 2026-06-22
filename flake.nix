@@ -32,7 +32,6 @@
               alsa-lib
               libx11
               libxi
-              wayland
             ];
             RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
             LD_LIBRARY_PATH = lib.makeLibraryPath [
