@@ -17,13 +17,14 @@ async fn main() {
 }
 
 fn handle_input(center_x: f32, center_y: f32) {
+    let (mouse_x, mouse_y) = mouse_position();
     // checks if cursor is within x bounds of tile
-    if mouse_position().0 >= center_x - TILE_BORDER_SIZE
-        && mouse_position().0 <= center_x + (TILE_SIZE + TILE_BORDER_SIZE)
+    if mouse_x >= center_x - TILE_BORDER_SIZE
+        && mouse_x <= center_x + (TILE_SIZE + TILE_BORDER_SIZE)
     {
         // checks if cursor is within y bounds of tile
-        if mouse_position().1 >= center_y - TILE_BORDER_SIZE
-            && mouse_position().1 <= center_y + (TILE_SIZE + TILE_BORDER_SIZE)
+        if mouse_y >= center_y - TILE_BORDER_SIZE
+            && mouse_y <= center_y + (TILE_SIZE + TILE_BORDER_SIZE)
         {
             if is_mouse_button_pressed(MouseButton::Left) {
                 println!("{:?}", mouse_position());
