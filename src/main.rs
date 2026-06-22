@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-#[macroquad::main("MyGame")]
+#[macroquad::main("OneSweeper")]
 async fn main() {
     loop {
         clear_background(Color::from_hex(0xC0C0C0));
