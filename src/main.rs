@@ -99,20 +99,8 @@ impl OneSweeper {
             );
         } else if self.tile_clicked {
             if self.mine_placed {
-                draw_rectangle(
-                    center_x - (TILE_BORDER_SIZE / 2.),
-                    center_y - (TILE_BORDER_SIZE / 2.),
-                    TILE_SIZE + TILE_BORDER_SIZE,
-                    TILE_SIZE + TILE_BORDER_SIZE,
-                    Color::from_hex(0x7E7E7E),
-                );
-                draw_rectangle(
-                    center_x,
-                    center_y,
-                    TILE_SIZE,
-                    TILE_SIZE,
-                    Color::from_hex(0xFF0000),
-                );
+                self.draw_win_loss_tile(center_x, center_y, Color::from_hex(0xFF0000));
+
                 draw_texture_ex(
                     &self.mine_texture,
                     center_x,
@@ -124,20 +112,7 @@ impl OneSweeper {
                     },
                 );
             } else {
-                draw_rectangle(
-                    center_x - (TILE_BORDER_SIZE / 2.),
-                    center_y - (TILE_BORDER_SIZE / 2.),
-                    TILE_SIZE + TILE_BORDER_SIZE,
-                    TILE_SIZE + TILE_BORDER_SIZE,
-                    Color::from_hex(0x7E7E7E),
-                );
-                draw_rectangle(
-                    center_x,
-                    center_y,
-                    TILE_SIZE,
-                    TILE_SIZE,
-                    Color::from_hex(0xC0C0C0),
-                );
+                self.draw_win_loss_tile(center_x, center_y, Color::from_hex(0xC0C0C0));
                 draw_texture_ex(
                     &self.win_texture,
                     center_x + (TILE_BORDER_SIZE / 2.),
@@ -153,5 +128,16 @@ impl OneSweeper {
                 );
             }
         }
+    }
+
+    fn draw_win_loss_tile(&mut self, center_x: f32, center_y: f32, color: Color) {
+        draw_rectangle(
+            center_x - (TILE_BORDER_SIZE / 2.),
+            center_y - (TILE_BORDER_SIZE / 2.),
+            TILE_SIZE + TILE_BORDER_SIZE,
+            TILE_SIZE + TILE_BORDER_SIZE,
+            Color::from_hex(0x7E7E7E),
+        );
+        draw_rectangle(center_x, center_y, TILE_SIZE, TILE_SIZE, color);
     }
 }
