@@ -9,8 +9,8 @@ async fn main() {
     game.mine_texture.set_filter(FilterMode::Nearest);
     game.win_texture.set_filter(FilterMode::Nearest);
     loop {
-        let center_x = screen_width() / 2.;
-        let center_y = screen_height() / 2.;
+        let center_x = screen_width() / 2. - TILE_SIZE / 2.;
+        let center_y = screen_height() / 2. - TILE_SIZE / 2.;
         clear_background(Color::from_hex(0xC0C0C0));
 
         game.draw_tile(center_x, center_y);
@@ -113,6 +113,7 @@ impl OneSweeper {
                 );
             } else {
                 self.draw_win_loss_tile(center_x, center_y, Color::from_hex(0xC0C0C0));
+
                 draw_texture_ex(
                     &self.win_texture,
                     center_x + (TILE_BORDER_SIZE / 2.),
