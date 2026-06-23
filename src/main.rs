@@ -1,11 +1,12 @@
 use ::rand::{RngExt, rng};
-use macroquad::prelude::*;
+use macroquad::{miniquad::TextureParams, prelude::*};
 
 const TILE_SIZE: f32 = 100.;
 const TILE_BORDER_SIZE: f32 = TILE_SIZE / 10.;
 #[macroquad::main("OneSweeper")]
 async fn main() {
-    let mut game = OneSweeper::new();
+    let mut game = OneSweeper::new().await;
+    game.mine_texture.set_filter(FilterMode::Nearest);
     loop {
         let center_x = screen_width() / 2.;
         let center_y = screen_height() / 2.;
@@ -21,15 +22,17 @@ async fn main() {
 struct OneSweeper {
     tile_clicked: bool,
     mine_placed: bool,
+    mine_texture: Texture2D,
 }
 
 impl OneSweeper {
-    fn new() -> Self {
+    async fn new() -> Self {
         let mut rng = rng();
 
         OneSweeper {
             tile_clicked: false,
             mine_placed: rng.random_bool(0.5),
+            mine_texture: load_texture("assets/mine.png").await.unwrap(),
         }
     }
 
@@ -93,7 +96,30 @@ impl OneSweeper {
             );
         } else if self.tile_clicked {
             if self.mine_placed {
-                // TODO: Draw loss tile & mine sprite, ask user to replay
+                draw_rectangle(
+                    center_x - (TILE_BORDER_SIZE / 2.),
+                    center_y - (TILE_BORDER_SIZE / 2.),
+                    TILE_SIZE + TILE_BORDER_SIZE,
+                    TILE_SIZE + TILE_BORDER_SIZE,
+                    Color::from_hex(0x7E7E7E),
+                );
+                draw_rectangle(
+                    center_x,
+                    center_y,
+                    TILE_SIZE,
+                    TILE_SIZE,
+                    Color::from_hex(0xFF0000),
+                );
+                draw_texture_ex(
+                    &self.mine_texture,
+                    center_x,
+                    center_y,
+                    WHITE,
+                    DrawTextureParams {
+                        dest_size: Some(vec2(TILE_SIZE, TILE_SIZE)),
+                        ..Default::default()
+                    },
+                );
             }
         }
     }
