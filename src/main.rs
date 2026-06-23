@@ -7,6 +7,7 @@ const TILE_BORDER_SIZE: f32 = TILE_SIZE / 10.;
 async fn main() {
     let mut game = OneSweeper::new().await;
     game.mine_texture.set_filter(FilterMode::Nearest);
+    game.win_texture.set_filter(FilterMode::Nearest);
     loop {
         let center_x = screen_width() / 2.;
         let center_y = screen_height() / 2.;
@@ -23,6 +24,7 @@ struct OneSweeper {
     tile_clicked: bool,
     mine_placed: bool,
     mine_texture: Texture2D,
+    win_texture: Texture2D,
 }
 
 impl OneSweeper {
@@ -33,6 +35,7 @@ impl OneSweeper {
             tile_clicked: false,
             mine_placed: rng.random_bool(0.5),
             mine_texture: load_texture("assets/mine.png").await.unwrap(),
+            win_texture: load_texture("assets/win.png").await.unwrap(),
         }
     }
 
@@ -117,6 +120,34 @@ impl OneSweeper {
                     WHITE,
                     DrawTextureParams {
                         dest_size: Some(vec2(TILE_SIZE, TILE_SIZE)),
+                        ..Default::default()
+                    },
+                );
+            } else {
+                draw_rectangle(
+                    center_x - (TILE_BORDER_SIZE / 2.),
+                    center_y - (TILE_BORDER_SIZE / 2.),
+                    TILE_SIZE + TILE_BORDER_SIZE,
+                    TILE_SIZE + TILE_BORDER_SIZE,
+                    Color::from_hex(0x7E7E7E),
+                );
+                draw_rectangle(
+                    center_x,
+                    center_y,
+                    TILE_SIZE,
+                    TILE_SIZE,
+                    Color::from_hex(0xC0C0C0),
+                );
+                draw_texture_ex(
+                    &self.win_texture,
+                    center_x + (TILE_BORDER_SIZE / 2.),
+                    center_y + (TILE_BORDER_SIZE / 2.),
+                    BLUE,
+                    DrawTextureParams {
+                        dest_size: Some(vec2(
+                            TILE_SIZE - TILE_BORDER_SIZE,
+                            TILE_SIZE - TILE_BORDER_SIZE,
+                        )),
                         ..Default::default()
                     },
                 );
