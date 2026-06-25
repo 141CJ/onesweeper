@@ -70,6 +70,15 @@ impl OneSweeper {
                 }
             }
         }
+        if mouse_x >= center_x - TILE_BORDER_SIZE
+            && mouse_x <= center_x + (TILE_SIZE + TILE_BORDER_SIZE)
+        {
+            if mouse_y >= (STATS_BAR_SIZE / 4.) - TILE_BORDER_SIZE
+                && mouse_y <= (STATS_BAR_SIZE / 4.) + (TILE_SIZE + TILE_BORDER_SIZE)
+            {
+                if is_mouse_button_pressed(MouseButton::Left) {}
+            }
+        }
     }
 
     fn draw_window_border(&mut self) {
