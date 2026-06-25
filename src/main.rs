@@ -23,8 +23,12 @@ async fn main() {
     game.mine_texture.set_filter(FilterMode::Nearest);
     game.win_texture.set_filter(FilterMode::Nearest);
     loop {
-        let center_x = screen_width() / 2. - TILE_SIZE / 2.;
-        let center_y = screen_height() / 2. - TILE_SIZE / 2.;
+        let center_x =
+            screen_width() / 2. - TILE_SIZE / 2. + WINDOW_BORDER_OUTLINE_SIZE + WINDOW_BORDER_SIZE;
+        let center_y = screen_height() / 2. - TILE_SIZE / 2.
+            + WINDOW_BORDER_OUTLINE_SIZE
+            + WINDOW_BORDER_SIZE
+            + STATS_BAR_SIZE;
         clear_background(Color::from_hex(0xC0C0C0));
 
         game.draw_window_border();
@@ -201,13 +205,7 @@ impl OneSweeper {
             TILE_SIZE + TILE_BORDER_SIZE,
             Color::from_hex(0x7E7E7E),
         );
-        draw_rectangle(
-            center_x + WINDOW_BORDER_OUTLINE_SIZE + WINDOW_BORDER_SIZE,
-            center_y + WINDOW_BORDER_OUTLINE_SIZE + WINDOW_BORDER_SIZE + STATS_BAR_SIZE,
-            TILE_SIZE,
-            TILE_SIZE,
-            color,
-        );
+        draw_rectangle(center_x, center_y, TILE_SIZE, TILE_SIZE, color);
     }
     fn draw_reset_tile(&mut self, center_x: f32) {
         // top-left border of tile
