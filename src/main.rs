@@ -3,7 +3,7 @@ use macroquad::{miniquad::TextureParams, prelude::*};
 
 const TILE_SIZE: f32 = 100.;
 const TILE_BORDER_SIZE: f32 = TILE_SIZE / 10.;
-const STATS_BAR_SIZE: f32 = 50.;
+const STATS_BAR_SIZE: f32 = 150.;
 const WINDOW_BORDER_SIZE: f32 = 20.;
 const WINDOW_BORDER_OUTLINE_SIZE: f32 = 10.;
 
@@ -30,6 +30,7 @@ async fn main() {
         game.draw_window_border();
         game.draw_tile(center_x, center_y);
         game.handle_input(center_x, center_y);
+        game.draw_reset_tile(center_x);
 
         next_frame().await
     }
@@ -197,6 +198,50 @@ impl OneSweeper {
             TILE_SIZE,
             TILE_SIZE,
             color,
+        );
+    }
+    fn draw_reset_tile(&mut self, center_x: f32) {
+        // top-left border of tile
+        draw_triangle(
+            vec2(
+                center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) - TILE_BORDER_SIZE,
+            ),
+            vec2(
+                center_x - TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) - TILE_BORDER_SIZE,
+            ),
+            vec2(
+                center_x - TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) + TILE_SIZE + TILE_BORDER_SIZE,
+            ),
+            Color::from_hex(0xFFFFFF),
+        );
+
+        // bottom-right border of tile
+        draw_triangle(
+            vec2(
+                center_x - TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) + TILE_SIZE + TILE_BORDER_SIZE,
+            ),
+            vec2(
+                center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) + TILE_SIZE + TILE_BORDER_SIZE,
+            ),
+            vec2(
+                center_x + TILE_SIZE + TILE_BORDER_SIZE,
+                (STATS_BAR_SIZE / 4.) - TILE_BORDER_SIZE,
+            ),
+            Color::from_hex(0x7E7E7E),
+        );
+
+        // tile center
+        draw_rectangle(
+            center_x,
+            STATS_BAR_SIZE / 4.,
+            TILE_SIZE,
+            TILE_SIZE,
+            Color::from_hex(0xC0C0C0),
         );
     }
 }
