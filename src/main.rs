@@ -80,7 +80,11 @@ impl OneSweeper {
             if mouse_y >= (STATS_BAR_SIZE / 4.) - TILE_BORDER_SIZE
                 && mouse_y <= (STATS_BAR_SIZE / 4.) + (TILE_SIZE + TILE_BORDER_SIZE)
             {
-                if is_mouse_button_pressed(MouseButton::Left) {}
+                if is_mouse_button_pressed(MouseButton::Left) {
+                    self.tile_clicked = false;
+                    let mut rng = rng();
+                    self.mine_placed = rng.random_bool(0.5);
+                }
             }
         }
     }
