@@ -7,7 +7,17 @@ const STATS_BAR_SIZE: f32 = 50.;
 const WINDOW_BORDER_SIZE: f32 = 20.;
 const WINDOW_BORDER_OUTLINE_SIZE: f32 = 10.;
 
-#[macroquad::main("OneSweeper")]
+fn window_config() -> Conf {
+    Conf {
+        window_title: "OneSweeper".to_owned(),
+        window_height: 800,
+        window_width: 600,
+        window_resizable: true,
+        ..Default::default()
+    }
+}
+
+#[macroquad::main(window_config)]
 async fn main() {
     let mut game = OneSweeper::new().await;
     game.mine_texture.set_filter(FilterMode::Nearest);
