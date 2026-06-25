@@ -191,6 +191,12 @@ impl OneSweeper {
             TILE_SIZE + TILE_BORDER_SIZE,
             Color::from_hex(0x7E7E7E),
         );
-        draw_rectangle(center_x, center_y, TILE_SIZE, TILE_SIZE, color);
+        draw_rectangle(
+            center_x + WINDOW_BORDER_OUTLINE_SIZE + WINDOW_BORDER_SIZE,
+            center_y + WINDOW_BORDER_OUTLINE_SIZE + WINDOW_BORDER_SIZE + STATS_BAR_SIZE,
+            TILE_SIZE,
+            TILE_SIZE,
+            color,
+        );
     }
 }
