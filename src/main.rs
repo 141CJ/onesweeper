@@ -5,6 +5,8 @@ const TILE_SIZE: f32 = 100.;
 const TILE_BORDER_SIZE: f32 = TILE_SIZE / 10.;
 const STATS_BAR_SIZE: f32 = 50.;
 const WINDOW_BORDER_SIZE: f32 = 20.;
+const WINDOW_BORDER_OUTLINE_SIZE: f32 = 10.;
+
 #[macroquad::main("OneSweeper")]
 async fn main() {
     let mut game = OneSweeper::new().await;
@@ -68,7 +70,7 @@ impl OneSweeper {
                 WINDOW_BORDER_SIZE + STATS_BAR_SIZE,
             ), // top right
             vec2(WINDOW_BORDER_SIZE, screen_height() - WINDOW_BORDER_SIZE), // bottom left
-            RED,
+            Color::from_hex(0x7E7E7E),
         );
         // bottom-right border
         draw_triangle(
@@ -81,10 +83,19 @@ impl OneSweeper {
                 screen_height() - WINDOW_BORDER_SIZE,
             ), // bottom right
             vec2(WINDOW_BORDER_SIZE, screen_height() - WINDOW_BORDER_SIZE), // bottom left
-            BLUE,
+            Color::from_hex(0xFFFFFF),
         );
-        // TODO: draw rect over triangles and create WINDOW_BORDER_OUTLINE_SIZE var to determine size of rect,
-        // or how much of the triangles (the outline) to show. also set correct colors
+
+        draw_rectangle(
+            WINDOW_BORDER_SIZE + WINDOW_BORDER_OUTLINE_SIZE,
+            WINDOW_BORDER_SIZE + WINDOW_BORDER_OUTLINE_SIZE + STATS_BAR_SIZE,
+            screen_width() - (WINDOW_BORDER_SIZE * 2.) - (WINDOW_BORDER_OUTLINE_SIZE * 2.),
+            screen_height()
+                - (WINDOW_BORDER_OUTLINE_SIZE * 2.)
+                - (WINDOW_BORDER_SIZE * 2.)
+                - STATS_BAR_SIZE,
+            Color::from_hex(0xC0C0C0),
+        );
     }
 
     fn draw_tile(&mut self, center_x: f32, center_y: f32) {
